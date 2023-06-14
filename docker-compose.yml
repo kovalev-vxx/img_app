@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+    backend:
+        container_name: backend
+        build:
+            context: ./backend
+        volumes:
+            - ./backend:/backend
+        command: python manage.py collectstatic --noinput && gunicorn --bind 0.0.0.0:8000 wsgi:application
+        ports:
+            - 8000:8000
+        restart: always
+    nginx:
+        build: ./nginx
+        volumes:
+            - ./backend:/backend
+        ports:
+          - "80:80"
+        depends_on:
+          - backend
