@@ -1,6 +1,6 @@
 FROM node:14-slim
 
-WORKDIR /app
+WORKDIR /frontend
 
 COPY package.json ./
 

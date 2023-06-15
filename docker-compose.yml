@@ -26,8 +26,8 @@ services:
         build:
             context: ./frontend
         volumes:
-            - ./frontend:/app
-            - /app/node_modules
+            - ./frontend:/frontend
+            - /frontend/node_modules
         command: serve -s build
         ports:
             - 3000:3000

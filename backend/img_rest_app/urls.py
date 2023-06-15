@@ -19,36 +19,47 @@ import images.views as views
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from django.views.decorators.csrf import csrf_exempt
+from djoser.views import TokenCreateView
 
 schema_view = get_schema_view(
     openapi.Info(
-      title="API",
-      default_version='v2',
-      description="Description",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="kovalev.vxx@gmail.com"),
-      license=openapi.License(name="BSD License"),
-   ),
+        title="API",
+        default_version="v2",
+        description="Description",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="kovalev.vxx@gmail.com"),
+        license=openapi.License(name="BSD License"),
+    ),
     public=True,
-    permission_classes=(permissions.AllowAny,)
+    permission_classes=(permissions.AllowAny,),
 )
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/photos/', views.PhotoListView.as_view()),
-    path('api/colors/', views.ColorView.as_view()),
-    path('api/keywords/', views.KeywordView.as_view()),
+    path(
+        "api/auth/token/", csrf_exempt(TokenCreateView.as_view()), name="token_create"
+    ),
+    path("admin/", admin.site.urls),
+    path("api/photos/", views.PhotoListView.as_view()),
+    path("api/colors/", views.ColorView.as_view()),
+    path("api/keywords/", views.KeywordView.as_view()),
     path("api/user/", views.UserView.as_view()),
-    path('api/search/', views.SearchPhotoListView.as_view()),
+    path("api/search/", views.SearchPhotoListView.as_view()),
     path("api/user/likes/create", views.LikePhotoCreateView.as_view()),
     path("api/user/likes/<str:pk>", views.LikePhotoDetailView.as_view()),
     path("api/user/likes/", views.LikePhotoView.as_view()),
     path("api/user/collections/", views.CollectionExpandedView.as_view()),
     path("api/user/collections/create", views.CollectionCreateView.as_view()),
     path("api/user/collections/<int:pk>", views.CollectionDetailView.as_view()),
-    path('api/auth/', include('djoser.urls')),
-    re_path(r'^api/auth/', include('djoser.urls.authtoken')),
-    path('doc/swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    path('doc/redoc', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc')
+    path("api/auth/", include("djoser.urls")),
+    re_path(r"^api/auth/", include("djoser.urls.authtoken")),
+    path(
+        "doc/swagger/",
+        schema_view.with_ui("swagger", cache_timeout=0),
+        name="schema-swagger-ui",
+    ),
+    path(
+        "doc/redoc", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"
+    ),
 ]
