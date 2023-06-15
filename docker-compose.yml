@@ -19,3 +19,18 @@ services:
           - "80:80"
         depends_on:
           - backend
+    frontend:
+        container_name: frontend
+        env_file:
+            - ./frontend/.env
+        build:
+            context: ./frontend
+        volumes:
+            - ./frontend:/app
+            - /app/node_modules
+        command: serve -s build
+        ports:
+            - 3000:3000
+        depends_on:
+            - backend
+        restart: always
