@@ -6,7 +6,7 @@
 
 - Frontend: React, Redux, AntDesign
 
-- Backend: Django, DRF, SQLite
+- Backend: Django, DRF, SQLite, Swagger
 
 - Devops: Docker, NGINX
 
@@ -23,3 +23,5 @@
 ```bash
 docker-compose up
 ```
+
+Документация доступна по адресу `/doc/swagger`
